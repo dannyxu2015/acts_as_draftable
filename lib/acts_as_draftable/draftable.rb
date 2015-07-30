@@ -124,15 +124,15 @@ module ActsAsDraftable
         self.drafts.wait_verified.first
       end
 
-      def verified_draft_to_true(verfied_mome, operator = nil)
+      def verified_draft_to_true(verified_memo, operator = nil)
         ActiveRecord::Base.transaction do
-          last_draft.to_online(verfied_mome, operator) if last_draft.present? and last_draft.is_waitting_verified?
+          last_draft.to_online(verified_memo, operator) if last_draft.present? and last_draft.is_waitting_verified?
         end
       end
 
-      def verified_draft_to_false(verfied_mome, operator = nil)
+      def verified_draft_to_false(verified_memo, operator = nil)
         ActiveRecord::Base.transaction do
-          last_draft.to_offline(verfied_mome, operator) if last_draft.present? and last_draft.is_waitting_verified?
+          last_draft.to_offline(verified_memo, operator) if last_draft.present? and last_draft.is_waitting_verified?
         end
       end
 
