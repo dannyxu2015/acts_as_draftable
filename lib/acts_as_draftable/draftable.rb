@@ -12,7 +12,7 @@ module ActsAsDraftable
         self.assign_attributes(params)
 
         unless self.valid?
-          raise self.errors.full_messages.join(", ")
+          raise ActsAsDraftable::Exception, self.errors.full_messages.join(", ")
         end
 
         ActiveRecord::Base.transaction do
@@ -78,7 +78,7 @@ module ActsAsDraftable
           self.drafts.create(content: draft_res, active: 1, verified: -1, ownerable: owner)
         else
           if self.last_draft.is_waitting_verified?
-            raise "审核中不能修改。。。"
+            raise ActsAsDraftable::Exception, "审核中不能修改。。。"
           elsif self.last_draft.is_editting?
             self.last_draft.update(content: draft_res, active: 1, verified: -1, ownerable: owner)
           else
